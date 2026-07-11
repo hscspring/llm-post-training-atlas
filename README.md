@@ -109,6 +109,7 @@ Notation for the **My Notes** column:
 - `(omnibus → ...)` — covered as a main thread in a survey/overview blog
 - `(<verb: derived/extended/contrasted/described/framed/criticized/...> in [blog]: ...)` — touched on as a sub-topic inside another deep-dive, with a one-line pointer; multiple pointers can be chained with `;`
 - *to-write* — not yet written
+- `(shelved: ...)` — deliberately *not* written; the one-line reason is itself the verdict
 
 ### RL Reasoning Reproduction (R1 and Beyond)
 
@@ -133,19 +134,11 @@ Notation for the **My Notes** column:
 | ORZ | Open-Reasoner-Zero | StepFun | 2025 | [paper](https://github.com/Open-Reasoner-Zero/Open-Reasoner-Zero/blob/main/ORZ_paper.pdf), [GitHub](https://github.com/Open-Reasoner-Zero/Open-Reasoner-Zero) | (omnibus → [PPO-Data](https://yam.gift/2025/02/27/NLP/LLM-Training/2025-02-27-LLM-PostTrain-PPO-Data/)) |
 | Online-DPO-R1 | Online-DPO-R1: Effective Reasoning Without the PPO Overhead | Salesforce | 2025 | [paper](https://efficient-unicorn-451.notion.site/Online-DPO-R1-Unlocking-Effective-Reasoning-Without-the-PPO-Overhead-1908b9a70e7b80c3bc83f4cf04b2f175), [GitHub](https://github.com/RLHFlow/Online-DPO-R1) | [R1 相关：DPO 数据选择与 DPO 等 RL 算法](https://yam.gift/2025/03/02/NLP/LLM-Training/2025-03-02-LLM-PostTrain-DPO-Data/) |
 | LIMD | LIMD: Less is More on DPO Data | — | 2025 | — | (omnibus → [DPO-Data](https://yam.gift/2025/03/02/NLP/LLM-Training/2025-03-02-LLM-PostTrain-DPO-Data/)) |
-| OREAL | Exploring the Limit of Outcome Reward for Math Reasoning | InternLM | 2025 | [paper](https://arxiv.org/abs/2502.06781), [GitHub](https://github.com/InternLM/OREAL) | *to-write* |
+| OREAL | Exploring the Limit of Outcome Reward for Math Reasoning | InternLM | 2025 | [paper](https://arxiv.org/abs/2502.06781), [GitHub](https://github.com/InternLM/OREAL) | (shelved: the "limit of outcome reward" question got absorbed by the process/dense-reward thread — DELTA / SVM — and RM-Data's "unlocking" view) |
 | DeepScaleR | DeepScaleR: Surpassing O1-Preview with a 1.5B Model by Scaling RL | Agentica | 2025 | [paper](https://pretty-radio-b75.notion.site/DeepScaleR-Surpassing-O1-Preview-with-a-1-5B-Model-by-Scaling-RL-19681902c1468005bed8ca303013a4e2), [GitHub](https://github.com/agentica-project/deepscaler) | (omnibus → [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/)) |
 | L1 / LCPO | Controlling How Long A Reasoning Model Thinks With RL | CMU | 2025 | [paper](http://arxiv.org/abs/2503.04697), [GitHub](https://github.com/cmu-l3/l1) | (omnibus → [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/)) |
-| MRT | Optimizing Test-Time Compute via Meta RL Fine-Tuning | CMU | 2025 | [paper](http://arxiv.org/abs/2503.07572), [GitHub](https://github.com/CMU-AIRe/MRT) | *to-write* |
-| ScalingLaw | Value-Based Deep RL Scales Predictably | Berkeley | 2025 | [paper](https://arxiv.org/abs/2502.04327) | *to-write* |
-
-### SLM Reasoning
-
-| Abbr | Title | From | Year | Link | My Notes |
-|------|-------|------|------|------|----------|
-| PRIME | Process Reinforcement through Implicit Rewards | PRIME-RL | 2025 | [paper](https://curvy-check-498.notion.site/Process-Reinforcement-through-Implicit-Rewards-15f4fcb9c42180f1b498cc9b2eaf896f), [GitHub](https://github.com/PRIME-RL/PRIME) | (described in [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/): implicit PRM — trained as an ORM, used as a PRM) |
-| rStar-Math | rStar-Math: Small LLMs Can Master Math Reasoning | Microsoft | 2025 | [paper](https://arxiv.org/abs/2501.04519), [GitHub](https://github.com/microsoft/rStar) | (described in [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/): rule-based verification on intermediate results at key steps, via Python code execution) |
-| rStar | rStar: Mutual Reasoning Makes Smaller LLMs Stronger | Microsoft | 2024 | [paper](https://arxiv.org/pdf/2408.06195), [GitHub](https://github.com/zhentingqi/rStar) | *to-write* |
+| MRT | Optimizing Test-Time Compute via Meta RL Fine-Tuning | CMU | 2025 | [paper](http://arxiv.org/abs/2503.07572), [GitHub](https://github.com/CMU-AIRe/MRT) | (shelved: budget control already covered by L1/LCPO in [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/); its dense progress reward is the same sparse→dense move as Track 07) |
+| ScalingLaw | Value-Based Deep RL Scales Predictably | Berkeley | 2025 | [paper](https://arxiv.org/abs/2502.04327) | *to-write* (as the pre-LLM anchor of a future "RL Scaling Law" post — ScaleRL-era work as the main thread; RL compute scaling is currently the index's blind spot) |
 
 ### Reward Model (modeling / data / verifier)
 
@@ -231,7 +224,7 @@ Notation for the **My Notes** column:
 
 ### Pre-R1 Foundations (Historical Anchors)
 
-> Pre-R1 RL × NLP works the author considers personally important. Kept here for sentimental and historical reasons rather than as active reading. The author's full reflection: [《通向 AGI 的技术路径：多模态、强化学习与新架构的交汇点》](https://yam.gift/2026/01/25/AI/2026-01-25-AI-Future-Framework/) — *"22 年 RL4LMs 出来后我兴奋的晚上觉都没睡着，第一时间就读了他们的代码。"*
+> Pre-R1 RL × NLP works the author considers personally important. Kept here for sentimental and historical reasons rather than as active reading. Includes the *final days* of the pre-R1 era — PRIME and rStar-Math shipped in early January 2025, and R1 (Jan 20) buried their lines within weeks. The author's full reflection: [《通向 AGI 的技术路径：多模态、强化学习与新架构的交汇点》](https://yam.gift/2026/01/25/AI/2026-01-25-AI-Future-Framework/) — *"22 年 RL4LMs 出来后我兴奋的晚上觉都没睡着，第一时间就读了他们的代码。"*
 
 | Abbr | Title | From | Year | Link | Note |
 |------|-------|------|------|------|------|
@@ -239,6 +232,9 @@ Notation for the **My Notes** column:
 | FTHP | Fine-Tuning Language Models from Human Preferences | OpenAI | 2020 | [paper](http://arxiv.org/abs/1909.08593), [GitHub](https://github.com/openai/lm-human-preferences) | OpenAI's earliest RLHF experiment; the seed of InstructGPT/ChatGPT |
 | Quark | Quark: Controllable Text Generation with Reinforced [Un]learning | Allen | 2022 | [paper](http://arxiv.org/abs/2205.13636), [GitHub](https://github.com/GXimingLu/Quark) | Early attempt at RL for controllable generation × unlearning — niche but conceptually clean |
 | DT | Decision Transformer: RL via Sequence Modeling | Berkeley | 2021 | [paper](https://arxiv.org/abs/2106.01345), [GitHub](https://github.com/kzl/decision-transformer) | The "RL = sequence modeling" reframing — a parallel branch that diverged from the LLM-RL trunk |
+| rStar | rStar: Mutual Reasoning Makes Smaller LLMs Stronger | Microsoft | 2024 | [paper](https://arxiv.org/pdf/2408.06195), [GitHub](https://github.com/zhentingqi/rStar) | High-water mark of the MCTS + SLM mutual-reasoning line — conceptually clean, ended by R1 along with the rest of the search-based branch |
+| rStar-Math | rStar-Math: Small LLMs Can Master Math Reasoning | Microsoft | 2025 | [paper](https://arxiv.org/abs/2501.04519), [GitHub](https://github.com/microsoft/rStar) | Shipped 12 days before R1 — the MCTS+PRM line's peak, instantly buried. The author had a blog half-written when R1 landed: a genuinely good paper born in the wrong era; (described in [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/): rule-based verification on intermediate results via Python execution) |
+| PRIME | Process Reinforcement through Implicit Rewards | PRIME-RL | 2025 | [paper](https://curvy-check-498.notion.site/Process-Reinforcement-through-Implicit-Rewards-15f4fcb9c42180f1b498cc9b2eaf896f), [GitHub](https://github.com/PRIME-RL/PRIME) | Implicit PRM (trained as ORM, used as PRM) — the line died with R1, though process reward itself returned later as Track 07's dense rewards; (described in [R1-New-Paradigm](https://yam.gift/2025/03/15/NLP/LLM-Training/2025-03-15-R1-New-Paradigm/)) |
 
 ### Frontier RL — Boundary, Process Reward & Experience
 
@@ -337,14 +333,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 
 ## Appendix
 
-### ① DeepSeek-R1 Reproduction Resources
-
-- [Jiayi-Pan/TinyZero](https://github.com/Jiayi-Pan/TinyZero) — clean, minimal reproduction of DeepSeek R1-Zero
-- [huggingface/open-r1](https://github.com/huggingface/open-r1) — fully open reproduction of DeepSeek-R1
-- [hkust-nlp/simpleRL-reason](https://github.com/hkust-nlp/simpleRL-reason)
-- [ZihanWang314/RAGEN](https://github.com/ZihanWang314/ragen) — first open-source reproduction of DeepSeek-R1 on agent training
-
-### ② Citation / Feedback
+### Citation / Feedback
 
 If this index or the linked blog posts are useful, leave a note on [GitHub Issues](https://github.com/hscspring/rl-llm-nlp/issues), or cite [yam.gift](https://yam.gift) when referencing.
 

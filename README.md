@@ -3,7 +3,7 @@
 > **A curated, opinionated index of post-R1 LLM × Reinforcement Learning.**
 > Every paper is read, classified, cross-linked, and connected back to a Chinese deep-dive blog post by [hscspring](https://yam.gift).
 
-**Last updated: 2026-07 · 39 blog posts · 7 tracks**
+**Last updated: 2026-07 · 40 blog posts · 7 tracks**
 
 I consider RL to be a pivotal technology in the field of AI, and NLP (particularly LLM) to be a direction well worth exploring. This repo focuses on **post-R1 LLM RL** specifically.
 
@@ -16,7 +16,7 @@ Awesome lists are *retrievers*. This repo is a *curator*.
 - **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc* through post-R1 RL × LLM: Feb-2025 R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL.
 - **Personal historical anchors.** Pre-R1 works (RL4LMs, FTHP, Quark, DT) live in their own corner with a one-line *why I personally cared*, not as bibliography filler.
 
-**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · Distribution Alignment.
+**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · Distribution Alignment.
 
 ---
 
@@ -38,7 +38,7 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 
 - **Core thesis**: every variant is paying off the *same* engineering debt — token vs. sequence-level, clip tighter/wider, length normalization, KL choice (k2 vs k3), advantage global-normalization.
 - **Convergence**: the GRPO objective increasingly looks like a "people's edition" of PPO with global advantage and no critic.
-- **Sub-thread — clip**: clip is not just a stability knob — it directly *shapes* the explore/exploit boundary. Spurious Rewards, Clip-Higher (DAPO), Clip-Wider (GMPO) are all moves on the same axis.
+- **Sub-thread — clip**: clip is not just a stability knob — it directly *shapes* the explore/exploit boundary. Spurious Rewards, Clip-Higher (DAPO), Clip-Wider (GMPO) are all moves on the same axis. SIS breaks the axis itself: token-level rejection sampling turns 60–80% of off-policy tokens *back into* on-policy ones (weight = 1, zero bias) instead of suppressing their gradients — stability without sacrificing signal.
 - **Sub-thread spun off — Agentic RL**: GiGPO / COPO / GAGPO grew out of GRPO's grouping idea, but step-level credit assignment is its own problem axis — now Track 07 below.
 - **Sub-thread — TRPO foundation**: TRPO is the theoretical bedrock (IS + Trust Region + Advantage). FiberPO's vanishing theorem shows γ must be 1 in LLM RL, collapsing TRPO's trust region radius to zero — PPO/GRPO clip is an empirical δ-relaxation of this collapsed bound.
 
@@ -214,6 +214,7 @@ Notation for the **My Notes** column:
 | MOPD | MiMo-V2-Flash Technical Report | Xiaomi | 2026 | [paper](https://arxiv.org/abs/2601.02780) | (omnibus → [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/)) |
 | SAPO | Soft Adaptive Policy Optimization | Qwen | 2026 | [paper](https://arxiv.org/abs/2511.20347) | (omnibus → [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/)) |
 | DCPO | DCPO: Dynamic Clipping Policy Optimization | Baichuan | 2025 | [paper](https://arxiv.org/abs/2509.02333), [GitHub](https://github.com/lime-RL/DCPO) | (described in [GRPO-Clip](https://yam.gift/2025/09/12/NLP/LLM-Training/2025-09-12-GRPO-Clip/): adaptive clip bounds based on token prior probability — expanding exploration room for low-probability tokens) |
+| SIS | Turning Off-Policy Tokens On-Policy: A Plug-in Approach for Improving LLM Alignment | RUC, JD | 2026 | [paper](https://arxiv.org/abs/2607.04728) | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) |
 | OPO | On-Policy RL with Optimal Reward Baseline | Microsoft | 2025 | [paper](https://arxiv.org/abs/2505.23585) | (described in [Token-Level-GSPO-GMPO](https://yam.gift/2025/08/14/NLP/LLM-Training/2025-08-14-Token-Level-GSPO-GMPO/): optimal reward baseline minimizes gradient variance; contrasted in [GTPO](https://yam.gift/2025/08/30/NLP/LLM-Training/2025-08-30-GTPO/): focuses on advantage/reward level rather than token level) |
 | SRPO | SRPO: Cross-Domain Implementation of Large-Scale RL on LLM | Kuaishou | 2025 | [paper](https://arxiv.org/abs/2504.14286), [HF](https://huggingface.co/Kwaipilot/SRPO-Qwen-32B) | (contrasted in [Token-Level-GSPO-GMPO](https://yam.gift/2025/08/14/NLP/LLM-Training/2025-08-14-Token-Level-GSPO-GMPO/): historical resampling retains key samples to improve sample efficiency) |
 | DPO | Direct Preference Optimization | Stanford | 2024 | [paper](https://arxiv.org/abs/2305.18290) | (compared inside [DPO-Data](https://yam.gift/2025/03/02/NLP/LLM-Training/2025-03-02-LLM-PostTrain-DPO-Data/)) |
@@ -328,6 +329,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2026-06-01 | 06 | [你可能没那么懂 SFT：SFT 与 RL 的爱恨纠葛](https://yam.gift/2026/06/01/NLP/LLM-Training/2026-06-01-SFT-vs-RL/) | SFT is a special case of RL; the question is "which layer is activating vs. memorizing?" |
 | 2026-06-22 | 02 | [为什么TRPO在LLM里不能用？——FiberPO的起点](https://yam.gift/2026/06/22/NLP/LLM-Training/2026-06-22-TRPO-Vanishing/) | γ must be 1 in LLM RL → TRPO trust region vanishes to zero; PPO/GRPO clip is empirical δ-relaxation. |
 | 2026-07-04 | 06 | [从 SVM 到分布对齐：后训练方法的另一个统一视角](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/) | SVM/DPO/RLHF/SFT are all distribution alignment — differing in anchor count, KL direction, and anchor observability. |
+| 2026-07-13 | 02 | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) | Rejection sampling turns most off-policy tokens on-policy — keep the gradient signal instead of clipping it; provably tighter error bound (D_SIS ≤ D). |
 
 ---
 

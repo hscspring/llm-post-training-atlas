@@ -3,7 +3,7 @@
 > **A curated, opinionated index of post-R1 LLM × Reinforcement Learning.**
 > Every paper is read, classified, cross-linked, and connected back to a Chinese deep-dive blog post by [hscspring](https://yam.gift).
 
-**Last updated: 2026-07 · 40 blog posts · 7 tracks**
+**Last updated: 2026-08 · 41 blog posts · 7 tracks**
 
 I consider RL to be a pivotal technology in the field of AI, and NLP (particularly LLM) to be a direction well worth exploring. This repo focuses on **post-R1 LLM RL** specifically.
 
@@ -16,7 +16,7 @@ Awesome lists are *retrievers*. This repo is a *curator*.
 - **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc* through post-R1 RL × LLM: Feb-2025 R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL.
 - **Personal historical anchors.** Pre-R1 works (RL4LMs, FTHP, Quark, DT) live in their own corner with a one-line *why I personally cared*, not as bibliography filler.
 
-**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · Distribution Alignment.
+**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · Distribution Alignment · Reward Philosophy (reward hack / Reward-is-Enough debate).
 
 ---
 
@@ -42,13 +42,14 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 - **Sub-thread spun off — Agentic RL**: GiGPO / COPO / GAGPO grew out of GRPO's grouping idea, but step-level credit assignment is its own problem axis — now Track 07 below.
 - **Sub-thread — TRPO foundation**: TRPO is the theoretical bedrock (IS + Trust Region + Advantage). FiberPO's vanishing theorem shows γ must be 1 in LLM RL, collapsing TRPO's trust region radius to zero — PPO/GRPO clip is an empirical δ-relaxation of this collapsed bound.
 
-### Track 03 — Reward Modeling, Data & Verifiers (2025)
+### Track 03 — Reward Modeling, Data & Verifiers (2025–2026)
 
-> RM / RM-Data / Verifier-Free / Self-Verified / Verify-Free RL.
+> RM / RM-Data / Verifier-Free / Self-Verified / Verify-Free RL / Reward Philosophy.
 
 - **Drift 1 (modeling)**: from single scalar → "principles + critique + self-verification" (DeepSeek-GRM → DeepSeekMath-V2).
 - **Drift 2 (data)**: good reward data is more like *unlocking* the base model's existing capabilities than *teaching* new ones (Skywork-Reward-V2, Spurious Rewards).
 - **Drift 3 (Verify-Free)**: when no external verifier exists, all internal-feedback methods (TTRL / EM / RENT / EMPO / Intuitor) end up *compressing* entropy. Long-term, an exploration crisis is inevitable — ETTRL / Darling / EVOL-RL / RESTRAIN are all band-aids on the same wound.
+- **Drift 4 (philosophy)**: a reward is a *lossy compression* of preference, and always lossy. Reward hacking is therefore structural, not a bug — RMs provably memorize surface heuristics (length, tone, sycophancy). The reframe: treat reward as a *prior to be revised*, not ground truth; the "Reward is Enough" vs "Scalar reward is not enough" debate is really about whether one scalar can carry a vector of incommensurable preferences.
 
 ### Track 04 — MoE RL Stability (2026)
 
@@ -68,6 +69,7 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 - **New paradigm A — Training-Free RL**: advantage lives in text/context, not in weight space (TRT, Training-Free GRPO, MemAPO, Update-Free Steering).
 - **New paradigm B — Experience-as-RL**: the loop becomes "trajectory → information gain → re-supervision". Reflection, meta-search and open-ended learning are all data-construction tricks in disguise.
 - **Higher-level question**: "reasoning" should be studied as a *data format*, not as an RL task (Think-Strategy / LEPA).
+- **Forward extrapolation of this track** (cited anchor, not a paper deep-dive): [从持续学习到下一代 AI 方向探讨](https://yam.gift/2026/08/08/AI/2026-08-08-Next-AI/) argues the next-gen learning unit is *experience*, not token — with RL as the self-evolution core (Sutton's continual backprop, experience-based learning, In-Place TTT, PEFT-scaling). It is the forward-looking companion to the Pre-R1 reflection anchor [AI-Future-Framework](https://yam.gift/2026/01/25/AI/2026-01-25-AI-Future-Framework/).
 
 ### Track 06 — Unified Theory of Post-Training (2026)
 
@@ -149,6 +151,18 @@ Notation for the **My Notes** column:
 | Spurious Rewards | Spurious Rewards: Rethinking Training Signals in RLVR | Allen | 2025 | [paper](https://arxiv.org/abs/2506.10947) | (omnibus → [RM-Data](https://yam.gift/2025/07/13/NLP/LLM-Training/2025-07-13-RM-Data/) / [GRPO-Clip](https://yam.gift/2025/09/12/NLP/LLM-Training/2025-09-12-GRPO-Clip/)) |
 | ICM | Anthropic Internal Coherence Maximization | Anthropic | 2025 | [blog](https://www.anthropic.com/research) | (omnibus → [RM-Data](https://yam.gift/2025/07/13/NLP/LLM-Training/2025-07-13-RM-Data/)) |
 | DeepSeekMath-V2 | Towards Self-Verifiable Mathematical Reasoning | DeepSeek | 2025 | [paper](https://github.com/deepseek-ai/DeepSeek-Math-V2), [GitHub](https://github.com/deepseek-ai/DeepSeek-Math-V2) | [DeepSeekMath-V2 自我验证：搞数据的风吹到了 RM](https://yam.gift/2025/11/29/NLP/LLM-Training/2025-11-29-Reward-Data-Self-Verified/) |
+
+### Reward Philosophy & Foundations
+
+> What a reward *is*, why reward hacking is structural, and whether one scalar can carry intelligence. All covered in one blog: [Reward 设计的本质：从 hack 到 hard](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/).
+
+| Abbr | Title | From | Year | Link | My Notes |
+|------|-------|------|------|------|----------|
+| RM-Memorize | What do Reward Models Memorize? | DeepMind | 2026 | [paper](https://arxiv.org/abs/2607.24484) | [Reward 设计的本质：从 hack 到 hard](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/) (RMs memorize surface heuristics → reward hack is structural) |
+| Reward is Enough | Reward is Enough | DeepMind (Silver, Singh, Precup, Sutton) | 2021 | [paper](https://www.sciencedirect.com/science/article/pii/S0004370221000862) | (omnibus → [Reward-Design](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/): a single scalar reward can drive all of intelligence — AlphaZero as proof) |
+| Scalar Reward not Enough | Scalar Reward is not Enough | Vamplew et al. | 2021 | [paper](https://arxiv.org/abs/2112.15422) | (omnibus → [Reward-Design](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/): rebuttal — intelligence needs vector/multi-objective rewards) |
+| Era of Experience | Welcome to the Era of Experience | Sutton & Silver | 2025 | [paper](http://incompleteideas.net/papers/TheEraOfExperience.pdf) | (omnibus → [Reward-Design](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/): user-guided reward adaptation over grounded signals; bi-level optimization) |
+| Why LMs Hallucinate | Why Language Models Hallucinate | OpenAI | 2025 | [paper](https://arxiv.org/abs/2509.04664) | (omnibus → [Reward-Design](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/): hallucination as a form of reward hack — binary benchmarks make "admit uncertainty" never optimal) |
 
 ### Verifier-Free RL (internal-feedback RL)
 
@@ -330,6 +344,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2026-06-22 | 02 | [为什么TRPO在LLM里不能用？——FiberPO的起点](https://yam.gift/2026/06/22/NLP/LLM-Training/2026-06-22-TRPO-Vanishing/) | γ must be 1 in LLM RL → TRPO trust region vanishes to zero; PPO/GRPO clip is empirical δ-relaxation. |
 | 2026-07-04 | 06 | [从 SVM 到分布对齐：后训练方法的另一个统一视角](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/) | SVM/DPO/RLHF/SFT are all distribution alignment — differing in anchor count, KL direction, and anchor observability. |
 | 2026-07-13 | 02 | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) | Rejection sampling turns most off-policy tokens on-policy — keep the gradient signal instead of clipping it; provably tighter error bound (D_SIS ≤ D). |
+| 2026-08-26 | 03 | [Reward 设计的本质：从 hack 到 hard](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/) | Reward is a lossy compression of preference; reward hack is structural, not a bug — treat reward as a prior to revise, not ground truth. |
 
 ---
 

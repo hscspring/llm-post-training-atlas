@@ -3,7 +3,7 @@
 > **A curated, opinionated index of post-R1 LLM × Reinforcement Learning.**
 > Every paper is read, classified, cross-linked, and connected back to a Chinese deep-dive blog post by [hscspring](https://yam.gift).
 
-**Last updated: 2026-09 · 42 blog posts · 7 tracks**
+**Last updated: 2026-10 · 43 blog posts · 7 tracks**
 
 I consider RL to be a pivotal technology in the field of AI, and NLP (particularly LLM) to be a direction well worth exploring. This repo focuses on **post-R1 LLM RL** specifically.
 
@@ -13,10 +13,10 @@ Awesome lists are *retrievers*. This repo is a *curator*.
 
 - **Has a verdict, not a vote.** Each of the 7 tracks ends with the author's bottom-line judgment ("data sets the ceiling, algorithms approach it"; "most RL is sampling polish, not extrapolation"; "all internal-feedback methods compress entropy → exploration crisis"), not a paper summary.
 - **Cross-links across papers.** RLOO ≡ GRPO with Fnorm=1 (derived in GiGPO); REINFORCE + IS → CISPO loss (extended in CISPO); Activation Steering & Context Engineering are the *upstream signals* of Training-Free RL. These connections only surface when one person reads everything.
-- **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc* through post-R1 RL × LLM: Feb-2025 R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL.
+- **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc* through post-R1 RL × LLM: Feb-2025 R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL → OPD × RL.
 - **Personal historical anchors.** Pre-R1 works (RL4LMs, FTHP, Quark, DT) live in their own corner with a one-line *why I personally cared*, not as bibliography filler.
 
-**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · Pass@k / advantage shaping (AAPO / ProGRPO / GRPOEA / EMPG / BAPO / ASPO) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · Distribution Alignment · Reward Philosophy (reward hack / Reward-is-Enough debate).
+**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · Pass@k / advantage shaping (AAPO / ProGRPO / GRPOEA / EMPG / BAPO / ASPO) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · On-Policy Distillation × RL · Distribution Alignment · Reward Philosophy (reward hack / Reward-is-Enough debate).
 
 ---
 
@@ -74,12 +74,13 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 
 ### Track 06 — Unified Theory of Post-Training (2026)
 
-> SFT × RL interplay, forgetting dynamics, distribution alignment — the search for one theory behind all post-training methods.
+> SFT × RL interplay, distillation × RL, forgetting dynamics, distribution alignment — the search for one theory behind all post-training methods.
 
 - **Core thesis**: SFT is a special case of RL (single-path, 1/π_θ-weighted). The question is not "can SFT generalize?" but "which layer is activating vs. memorizing?"
 - **Forgetting law**: on-policy RL stays closer to base (KL-minimal path → less forgetting, RL's Razor); SFT can drift arbitrarily far.
 - **One estimator**: HPT/GFT unify SFT/RL into one policy gradient estimator, differing only in data source and stabilizer.
 - **Distribution alignment lens**: SVM / DPO / RLHF / SFT all reduce to aligning a policy distribution to target anchors via log density-ratio rewards (r = log d⁺/d⁻). Differences lie in three axes: anchor count (one vs two), KL direction (forward = mode-covering SFT, reverse = mode-seeking RL/DPO — the same axis as MiniLLM's reverse-KL distillation), and anchor observability (explicit classifier vs implicit optimal policy). SFT's "pure pull, no push" (only d⁺, no d⁻) explains its instability on low-probability tokens (GFT's 1/π_θ explosion).
+- **Distillation–RL bridge**: an RL-trained teacher's policy diff is itself an implicit reward. The same directional signal can reconstruct a target policy (OPD), become a dense reward (Direct-OPD), or reshape verifier gradients without changing their stationary points (OPRD).
 
 ### Track 07 — Agentic RL (2025–2026)
 
@@ -289,6 +290,18 @@ Notation for the **My Notes** column:
 | Conditional SFT | Rethinking Generalization in Reasoning SFT | — | 2026 | [paper](https://arxiv.org/abs/2604.06628) | (omnibus → [SFT-vs-RL](https://yam.gift/2026/06/01/NLP/LLM-Training/2026-06-01-SFT-vs-RL/)) |
 | MiniLLM | MiniLLM: Knowledge Distillation of Large Language Models | THU, MSR | 2023 | [paper](https://arxiv.org/abs/2306.08543) | (described in [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/): forward vs reverse KL in distillation; connected in [SVM-to-Alignment](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/): reverse-KL distillation sits on the same mode-seeking axis as RL/DPO) |
 
+### On-Policy Distillation × RL
+
+> A policy diff can enter post-training at three levels — target, reward, or gradient — turning distillation and RL into different placements of the same directional signal.
+
+| Abbr | Title | From | Year | Link | My Notes |
+|------|-------|------|------|------|----------|
+| Direct-OPD | Weak-to-Strong Generalization via Direct On-Policy Distillation | Tsinghua, ByteDance | 2026 | [paper](https://arxiv.org/abs/2607.05394) | [OPD-RL 新范式：diff 出圈](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/) |
+| RG-OPD | Reward-Gated On-Policy Distillation | — | 2026 | [paper](https://arxiv.org/abs/2607.04037) | (contrasted in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): reward gates trajectories whose teacher–student likelihood gap agrees with advantage) |
+| OPRD | Eliciting Weak-to-Strong Generalization with On-Policy Reverse Distillation | — | 2026 | [paper](https://arxiv.org/abs/2609.08798) | (derived in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): project verifier gradients onto the teacher-diff direction and amplify that component without introducing new stationary points) |
+| Beyond Teacher | Learning beyond Teacher: Generalized On-Policy Distillation with Reward Extrapolation | — | 2026 | [paper](https://arxiv.org/abs/2602.12125) | (connected in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): OPD is a special case of dense KL-regularized RL) |
+| OPDD | On-Policy Delta Distillation | — | 2026 | [paper](https://arxiv.org/abs/2607.15161) | (connected in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): policy delta used directly as a dense reward) |
+
 ### Beyond RL — Training-Free / Behavior Shaping / Real-time PEFT
 
 > *Post-RL* directions covered in the same blogs. The paradigm is moving away from classical RL training, into context, behavior, and parameter-efficient adaptation. They are not RL by the textbook definition, but they share the same goal — shape model behavior — and several of them (Activation Steering, Context Engineering) are the **upstream signals** that Training-Free RL only later named explicitly.
@@ -355,6 +368,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2026-07-13 | 02 | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) | Rejection sampling turns most off-policy tokens on-policy — keep the gradient signal instead of clipping it; provably tighter error bound (D_SIS ≤ D). |
 | 2026-08-26 | 03 | [Reward 设计的本质：从 hack 到 hard](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/) | Reward is a lossy compression of preference; reward hack is structural, not a bug — treat reward as a prior to revise, not ground truth. |
 | 2026-09-11 | 02 | [从Pass@k到advantage，一场意想不到的邂逅](https://yam.gift/2026/09/11/NLP/LLM-Training/2026-09-11-PassK-Training/) | Pass@k training = dynamically weakening negative-advantage by global correct-count; converges to the whole 2025-H2 advantage-shaping red ocean (AAPO/ProGRPO/GRPOEA/EMPG/BAPO/ASPO). |
+| 2026-10-15 | 06 | [OPD-RL 新范式：diff 出圈——从蒸馏目标，到 RL 奖励，再到梯度](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/) | A teacher's policy diff can reconstruct a target, act as an implicit dense reward, or recondition verifier gradients — distillation and RL meet through the same directional signal. |
 
 ---
 

@@ -1,11 +1,21 @@
-# RL-LLM-NLP
+# LLM Post-Training Atlas / 大模型后训练图谱
 
-> **A curated, opinionated index of post-R1 LLM × Reinforcement Learning.**
-> Every paper is read, classified, cross-linked, and connected back to a Chinese deep-dive blog post by [hscspring](https://yam.gift).
+> **An opinionated map of post-R1 LLM post-training — RL, reward, alignment, distillation, agents, and the connections between them.**
+> Every work is read, classified, and cross-linked; most are connected back to a Chinese deep-dive by [hscspring](https://yam.gift).
 
-**Last updated: 2026-10 · 43 blog posts · 7 tracks**
+**Coverage: 2025-02 → 2026-10 · 46 deep dives · 133 curated works · 7 tracks**
 
-I consider RL to be a pivotal technology in the field of AI, and NLP (particularly LLM) to be a direction well worth exploring. This repo focuses on **post-R1 LLM RL** specifically.
+[Verdicts](#7-tracks--the-authors-verdicts) · [Papers](#papers) · [Timeline](#chronological-blog-timeline) · [Scope](#scope--inclusion-policy)
+
+This repository maps the **post-R1 LLM post-training** landscape. RL is its intellectual spine, not its boundary: the real question is how a model's policy is shaped — through reward, preference, demonstration, distillation, context, experience, or interaction.
+
+## Scope & Inclusion Policy
+
+- **Core scope**: post-R1 LLM post-training — RL/RLVR, policy optimization, reward and verifiers, alignment, SFT/DPO, on-policy distillation, agent learning, and post-training stability.
+- **Adjacent methods are included when they clarify the same mechanism**: Training-Free RL, activation/context steering, real-time adaptation, and policy-diff learning belong here when they illuminate how behavior or policy changes.
+- **Cross-domain work is selective**: multimodal, diffusion, flow, and embodied papers are included only when their mechanism transfers back to the shared post-training picture.
+- **Pure pre-training is excluded**: scaling laws, NTP, continual pre-training, and base-model construction stay out unless they are necessary context inside a post-training analysis.
+- **The boundary is conceptual, not terminological**: a paper does not need to call itself “RL”; it needs to contribute a meaningful signal, objective, estimator, or feedback loop for shaping policy.
 
 ## Why this repo (and not another Awesome list)
 
@@ -13,10 +23,10 @@ Awesome lists are *retrievers*. This repo is a *curator*.
 
 - **Has a verdict, not a vote.** Each of the 7 tracks ends with the author's bottom-line judgment ("data sets the ceiling, algorithms approach it"; "most RL is sampling polish, not extrapolation"; "all internal-feedback methods compress entropy → exploration crisis"), not a paper summary.
 - **Cross-links across papers.** RLOO ≡ GRPO with Fnorm=1 (derived in GiGPO); REINFORCE + IS → CISPO loss (extended in CISPO); Activation Steering & Context Engineering are the *upstream signals* of Training-Free RL. These connections only surface when one person reads everything.
-- **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc* through post-R1 RL × LLM: Feb-2025 R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL → OPD × RL.
+- **A narrative, not a database.** The Chronological Blog Timeline reads as a year-and-a-half *editorial arc*: R1 → GRPO family → Reward modeling → MoE stability → Training-Free RL → policy diff → OPD × RL.
 - **Personal historical anchors.** Pre-R1 works (RL4LMs, FTHP, Quark, DT) live in their own corner with a one-line *why I personally cared*, not as bibliography filler.
 
-**Topics covered**: DeepSeek-R1 reproduction · GRPO family (DAPO / Dr.GRPO / VAPO / CISPO / GiGPO / GSPO / GMPO / GTPO / Reinforce++ / COPO / GAGPO) · SIS (Selective Importance Sampling) · Pass@k / advantage shaping (AAPO / ProGRPO / GRPOEA / EMPG / BAPO / ASPO) · TRPO / FiberPO theory · PPO · RLHF · DPO · Reward Modeling · Verifier-Free RL · MoE RL Stability · Training-Free RL · Activation Steering · Agentic RL · SVM (Success Visitation Matching) · SFT × RL Interplay · On-Policy Distillation × RL · Distribution Alignment · Reward Philosophy (reward hack / Reward-is-Enough debate).
+**Core coverage**: RL reasoning · GRPO and policy optimization · reward/verifiers · data and scaling · MoE stability · Agentic RL · Training-Free behavior shaping · SFT/RL unification · OPD and policy-diff learning.
 
 ---
 
@@ -42,6 +52,7 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 - **Sub-thread spun off — Agentic RL**: GiGPO / COPO / GAGPO grew out of GRPO's grouping idea, but step-level credit assignment is its own problem axis — now Track 07 below.
 - **Sub-thread — TRPO foundation**: TRPO is the theoretical bedrock (IS + Trust Region + Advantage). FiberPO's vanishing theorem shows γ must be 1 in LLM RL, collapsing TRPO's trust region radius to zero — PPO/GRPO clip is an empirical δ-relaxation of this collapsed bound.
 - **Sub-thread — advantage shaping for exploration** (2025-H2 red ocean): the fix for GRPO's exploitation collapse is increasingly to reshape the *advantage scalar itself* (zero-touch the loss), not the clip. Pass@k training dynamically weakens negative-sample penalties by the global correct-count (harder problems get more tolerance); AAPO adds a frozen-reference margin; ProGRPO folds in generative confidence (difficulty × certainty); GRPOEA/EMPG modulate advantage by entropy; BAPO/ASPO push the same idea down to token-level asymmetric clipping. The common realization: over-penalizing negatives is what kills exploration, and the negative-advantage term matters as much as the positive.
+- **Cross-architecture warning — DLM RL**: JustGRPO shows that a more flexible generation order can *reduce* exploration by postponing high-entropy branch points until bidirectional context has already collapsed the option set. Flexibility at inference time is not automatically useful flexibility during policy optimization.
 
 ### Track 03 — Reward Modeling, Data & Verifiers (2025–2026)
 
@@ -69,6 +80,7 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 - **Upstream signals (already in 2025 H2)**: "Activation Steering" and "Context Engineering" both pointed in this direction *before* Training-Free RL had a name — behavior can be shaped without touching weights.
 - **New paradigm A — Training-Free RL**: advantage lives in text/context, not in weight space (TRT, Training-Free GRPO, MemAPO, Update-Free Steering).
 - **New paradigm B — Experience-as-RL**: the loop becomes "trajectory → information gain → re-supervision". Reflection, meta-search and open-ended learning are all data-construction tricks in disguise.
+- **Constraint alignment**: instruction following becomes RLVR once a complex instruction is decomposed into checkable constraints. The hard part moves from inventing a new optimizer to engineering verifiers and preference pairs that preserve every constraint.
 - **Higher-level question**: "reasoning" should be studied as a *data format*, not as an RL task (Think-Strategy / LEPA).
 - **Forward extrapolation of this track** (cited anchor, not a paper deep-dive): [从持续学习到下一代 AI 方向探讨](https://yam.gift/2026/08/08/AI/2026-08-08-Next-AI/) argues the next-gen learning unit is *experience*, not token — with RL as the self-evolution core (Sutton's continual backprop, experience-based learning, In-Place TTT, PEFT-scaling). It is the forward-looking companion to the Pre-R1 reflection anchor [AI-Future-Framework](https://yam.gift/2026/01/25/AI/2026-01-25-AI-Future-Framework/).
 
@@ -80,7 +92,7 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 - **Forgetting law**: on-policy RL stays closer to base (KL-minimal path → less forgetting, RL's Razor); SFT can drift arbitrarily far.
 - **One estimator**: HPT/GFT unify SFT/RL into one policy gradient estimator, differing only in data source and stabilizer.
 - **Distribution alignment lens**: SVM / DPO / RLHF / SFT all reduce to aligning a policy distribution to target anchors via log density-ratio rewards (r = log d⁺/d⁻). Differences lie in three axes: anchor count (one vs two), KL direction (forward = mode-covering SFT, reverse = mode-seeking RL/DPO — the same axis as MiniLLM's reverse-KL distillation), and anchor observability (explicit classifier vs implicit optimal policy). SFT's "pure pull, no push" (only d⁺, no d⁻) explains its instability on low-probability tokens (GFT's 1/π_θ explosion).
-- **Distillation–RL bridge**: an RL-trained teacher's policy diff is itself an implicit reward. The same directional signal can reconstruct a target policy (OPD), become a dense reward (Direct-OPD), or reshape verifier gradients without changing their stationary points (OPRD).
+- **Distillation–RL bridge**: OPD first isolates a teacher's *capability direction* as policy diff instead of copying its raw output; when that diff comes from an RL-trained teacher, it is also an implicit reward. The same directional signal can reconstruct a target policy (OPD), become a dense reward (Direct-OPD), or reshape verifier gradients without changing their stationary points (OPRD).
 
 ### Track 07 — Agentic RL (2025–2026)
 
@@ -92,20 +104,6 @@ Blog posts on [yam.gift](https://yam.gift) are grouped into 7 tracks. Each verdi
 
 ---
 
-## Library
-
-| GitHub | From | Year | Description |
-|--------|------|------|-------------|
-| [prime-rl](https://github.com/PrimeIntellect-ai/prime-rl) | PrimeIntellect-ai | 2025 | Decentralized large-scale RL training framework |
-| [PRIME](https://github.com/PRIME-RL/PRIME) | PRIME-RL | 2025 | Scalable RL recipe for reasoning |
-| [rStar](https://github.com/microsoft/rStar) | Microsoft | 2025 | Self-evolved deep reasoning for SLMs |
-| [veRL](https://github.com/volcengine/verl) | ByteDance | 2024 | LLM RL training framework (Volcano Engine) |
-| [trl](https://github.com/huggingface/trl) | HuggingFace | 2024 | Train language models with RL |
-| [RL4LMs](https://github.com/allenai/RL4LMs) | Allen | 2023 | Aligning LMs to human preference via RL |
-| [alignment-handbook](https://github.com/huggingface/alignment-handbook) | HuggingFace | 2023 | Recipes for aligning to human/AI preference |
-
----
-
 ## Papers
 
 Notation for the **My Notes** column:
@@ -114,6 +112,8 @@ Notation for the **My Notes** column:
 - `(<verb: derived/extended/contrasted/described/framed/criticized/...> in [blog]: ...)` — touched on as a sub-topic inside another deep-dive, with a one-line pointer; multiple pointers can be chained with `;`
 - *to-write* — not yet written
 - `(shelved: ...)` — deliberately *not* written; the one-line reason is itself the verdict
+
+Track-to-index map: **01** → R1 reproduction + data/scaling · **02** → GRPO + exploration + optimization foundations · **03** → reward + verifier-free · **04** → MoE stability · **05** → frontier + behavior shaping + instruction following · **06** → SFT/RL + policy diff · **07** → Agentic RL.
 
 ### RL Reasoning Reproduction (R1 and Beyond)
 
@@ -210,8 +210,22 @@ Notation for the **My Notes** column:
 | COPO | Think Fast and Slow: Step-Level Cognitive Depth Adaptation for LLM Agents | Tencent | 2026 | [paper](https://arxiv.org/abs/2602.12662), [GitHub](https://github.com/rhyang2021/CogRouter) | [COPO：基于认知模式的 Step-Level Agentic RL 优化](https://yam.gift/2026/04/23/NLP/LLM-Training/2026-04-23-COPO/) |
 | GAGPO | Generalized Advantage Grouped Policy Optimization | — | 2026 | [paper](https://arxiv.org/abs/2605.13217) | [GAGPO：如果把GiGPO拉回PPO+GAE](https://yam.gift/2026/05/18/NLP/LLM-Training/2026-05-18-GAGPO/) |
 | SVM | Learning Process Rewards via Success Visitation Matching for Efficient RL | — | 2026 | [paper](https://arxiv.org/abs/2606.23640) | [从 SVM 到分布对齐：后训练方法的另一个统一视角](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/) |
+| ReTool | Reinforcement Learning for Strategic Tool Use in LLMs | — | 2025 | [paper](https://arxiv.org/abs/2504.11536) | (covered in [指令跟随近期工作梳理](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): learn when to call a code interpreter and use execution as verification) |
 
-### Optimization Algorithms (GRPO Family + Classics)
+### Instruction Following & Constraint Alignment
+
+> The post-training slice of a broader 35-paper survey: decompose complex instructions, construct verifiable constraints, then optimize with RL or preference data.
+
+| Abbr | Title | From | Year | Link | My Notes |
+|------|-------|------|------|------|----------|
+| IF-RL | Incentivizing Reasoning for Advanced Instruction-Following of Large Language Models | — | 2025 | [paper](https://arxiv.org/abs/2506.01413) | [指令跟随近期工作梳理](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/) (decompose multi-constraint instructions, then train with RL and rule-verifiable rewards) |
+| VerIF | Verification Engineering for Reinforcement Learning in Instruction Following | — | 2025 | [paper](https://arxiv.org/abs/2506.09942) | (omnibus → [Instruction Following](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): rules for hard constraints, model judges for semantic constraints) |
+| RECAST | Strengthening LLMs' Complex Instruction Following with Constraint-Verifiable Data | — | 2025 | [paper](https://arxiv.org/abs/2505.19030) | (omnibus → [Instruction Following](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): construct training data around constraints that can actually be checked) |
+| MuSC | Improving Complex Instruction Following with Multi-granularity Self-Contrastive Training | — | 2025 | [paper](https://arxiv.org/abs/2502.11541) | (omnibus → [Instruction Following](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): coarse constraint-aware preferences plus token-level dynamic supervision) |
+| IOPO | Empowering LLMs with Complex Instruction Following via Input-Output Preference Optimization | — | 2024 | [paper](https://arxiv.org/abs/2411.06208) | (omnibus → [Instruction Following](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): preference optimization over matched input-output groups rather than outputs alone) |
+| RPO-IF | Reverse Preference Optimization for Complex Instruction Following | — | 2025 | [paper](https://arxiv.org/abs/2505.22172) | (omnibus → [Instruction Following](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/): reverse unmet constraints to synthesize cleaner preference pairs) |
+
+### GRPO Family & Industrial Recipes
 
 | Abbr | Title | From | Year | Link | My Notes |
 |------|-------|------|------|------|----------|
@@ -229,7 +243,13 @@ Notation for the **My Notes** column:
 | K-EXAONE | EXAONE-2 Tech Report | LG AI | 2026 | [paper](https://arxiv.org/abs/2601.01739) | (omnibus → [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/)) |
 | MOPD | MiMo-V2-Flash Technical Report | Xiaomi | 2026 | [paper](https://arxiv.org/abs/2601.02780) | (omnibus → [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/)) |
 | SAPO | Soft Adaptive Policy Optimization | Qwen | 2026 | [paper](https://arxiv.org/abs/2511.20347) | (omnibus → [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/)) |
+
+### Exploration, Advantage & Sampling
+
+| Abbr | Title | From | Year | Link | My Notes |
+|------|-------|------|------|------|----------|
 | DCPO | DCPO: Dynamic Clipping Policy Optimization | Baichuan | 2025 | [paper](https://arxiv.org/abs/2509.02333), [GitHub](https://github.com/lime-RL/DCPO) | (described in [GRPO-Clip](https://yam.gift/2025/09/12/NLP/LLM-Training/2025-09-12-GRPO-Clip/): adaptive clip bounds based on token prior probability — expanding exploration room for low-probability tokens) |
+| JustGRPO | The Flexibility Trap: Why Arbitrary Order Limits Reasoning Potential in Diffusion Language Models | — | 2026 | [paper](https://arxiv.org/abs/2601.15165) | [DLM 的 RL 后训练：灵活性陷阱](https://yam.gift/2026/03/01/NLP/LLM/2026-03-01-DLM/#RL-Post-Train) (arbitrary order avoids high-entropy branch points; train DLM autoregressively, retain parallel decoding at inference) |
 | SIS | Turning Off-Policy Tokens On-Policy: A Plug-in Approach for Improving LLM Alignment | RUC, JD | 2026 | [paper](https://arxiv.org/abs/2607.04728) | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) |
 | Pass@k Training | Pass@k Training for Adaptively Balancing Exploration and Exploitation | ByteDance Seed, RUC | 2025 | [paper](https://arxiv.org/abs/2508.10751) | [从Pass@k到advantage，一场意想不到的邂逅](https://yam.gift/2026/09/11/NLP/LLM-Training/2026-09-11-PassK-Training/) |
 | AAPO | AAPO: Enhancing Reasoning with Advantage Margin | — | 2025 | [paper](https://arxiv.org/abs/2505.14264) | (omnibus → [PassK-Training](https://yam.gift/2026/09/11/NLP/LLM-Training/2026-09-11-PassK-Training/): frozen-reference margin keeps gradient alive when GRPO advantage → 0) |
@@ -241,6 +261,11 @@ Notation for the **My Notes** column:
 | Pass@K PO | Pass@K Policy Optimization: Solving Harder RL Problems | DeepMind | 2025 | [paper](https://arxiv.org/abs/2505.15201) | *to-write* (low-variance unbiased pass@k gradient estimator — the proof-heavy companion to Pass@k Training) |
 | OPO | On-Policy RL with Optimal Reward Baseline | Microsoft | 2025 | [paper](https://arxiv.org/abs/2505.23585) | (described in [Token-Level-GSPO-GMPO](https://yam.gift/2025/08/14/NLP/LLM-Training/2025-08-14-Token-Level-GSPO-GMPO/): optimal reward baseline minimizes gradient variance; contrasted in [GTPO](https://yam.gift/2025/08/30/NLP/LLM-Training/2025-08-30-GTPO/): focuses on advantage/reward level rather than token level) |
 | SRPO | SRPO: Cross-Domain Implementation of Large-Scale RL on LLM | Kuaishou | 2025 | [paper](https://arxiv.org/abs/2504.14286), [HF](https://huggingface.co/Kwaipilot/SRPO-Qwen-32B) | (contrasted in [Token-Level-GSPO-GMPO](https://yam.gift/2025/08/14/NLP/LLM-Training/2025-08-14-Token-Level-GSPO-GMPO/): historical resampling retains key samples to improve sample efficiency) |
+
+### Policy Optimization Foundations
+
+| Abbr | Title | From | Year | Link | My Notes |
+|------|-------|------|------|------|----------|
 | DPO | Direct Preference Optimization | Stanford | 2024 | [paper](https://arxiv.org/abs/2305.18290) | (compared inside [DPO-Data](https://yam.gift/2025/03/02/NLP/LLM-Training/2025-03-02-LLM-PostTrain-DPO-Data/)) |
 | TRPO | Trust Region Policy Optimization | Berkeley | 2015 | [paper](https://arxiv.org/abs/1502.05477) | [TRPO深度拆解：为什么做后训练应该读懂TRPO](https://yam.gift/2026/05/11/NLP/LLM-Training/2026-05-11-TRPO/) |
 | FiberPO | FiberPO (vanishing theorem & δ-relaxation) | — | 2026 | — | [为什么TRPO在LLM里不能用？——FiberPO的起点](https://yam.gift/2026/06/22/NLP/LLM-Training/2026-06-22-TRPO-Vanishing/) (series part 1) |
@@ -290,12 +315,18 @@ Notation for the **My Notes** column:
 | Conditional SFT | Rethinking Generalization in Reasoning SFT | — | 2026 | [paper](https://arxiv.org/abs/2604.06628) | (omnibus → [SFT-vs-RL](https://yam.gift/2026/06/01/NLP/LLM-Training/2026-06-01-SFT-vs-RL/)) |
 | MiniLLM | MiniLLM: Knowledge Distillation of Large Language Models | THU, MSR | 2023 | [paper](https://arxiv.org/abs/2306.08543) | (described in [Open-LLM-RL-ShowCase](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/): forward vs reverse KL in distillation; connected in [SVM-to-Alignment](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/): reverse-KL distillation sits on the same mode-seeking axis as RL/DPO) |
 
-### On-Policy Distillation × RL
+### On-Policy Distillation & Policy-Diff Learning
 
-> A policy diff can enter post-training at three levels — target, reward, or gradient — turning distillation and RL into different placements of the same directional signal.
+> Not every work below is RL. They belong together because policy diff is the shared training signal: it first reconstructs or extrapolates a target, then crosses into RL as an implicit reward or a transformation of verifier gradients.
 
 | Abbr | Title | From | Year | Link | My Notes |
 |------|-------|------|------|------|----------|
+| W2S-OPD | Weak-to-Strong On-Policy Distillation | Microsoft | 2026 | [paper](https://arxiv.org/abs/2607.26246) | [「差值即信号」：OPD 蒸馏的新范式](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/) |
+| Lightning OPD 2.0 | Mitigating Style Bias in Cross-Teacher On-Policy Distillation | MIT | 2026 | [paper](https://arxiv.org/abs/2607.28449) | (omnibus → [OPD-Diff-is-Signal](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/): subtract cross-fitted style bias so the residual better isolates problem-specific reasoning signal) |
+| VAD | Attributing Visual Evidence for Target Reconstruction in Multimodal OPD | Xiaohongshu | 2026 | [paper](https://arxiv.org/abs/2607.28590) | (omnibus → [OPD-Diff-is-Signal](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/): project teacher correction onto the counterfactual visual-evidence direction) |
+| RP-OPSD | Resolution-Privileged On-Policy Self-Distillation for MLLMs | USTC | 2026 | [paper](https://arxiv.org/abs/2607.24447) | (omnibus → [OPD-Diff-is-Signal](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/): resolution supplies privileged information without external models or annotations) |
+| STEP-OPD | Rethinking Output Targets and Internal Dynamics in OPD for Diffusion Models | Alibaba | 2026 | [paper](https://arxiv.org/abs/2608.04887) | (omnibus → [OPD-Diff-is-Signal](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/): extrapolate the teacher-minus-base capability direction beyond the teacher) |
+| Poly-OPD | Heterogeneous Multi-Teacher OPD for Capability-Selectable Flow Models | JD Joy | 2026 | [paper](https://arxiv.org/abs/2608.04349) | (omnibus → [OPD-Diff-is-Signal](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/): allocate training budget by the remaining teacher–student capability gap) |
 | Direct-OPD | Weak-to-Strong Generalization via Direct On-Policy Distillation | Tsinghua, ByteDance | 2026 | [paper](https://arxiv.org/abs/2607.05394) | [OPD-RL 新范式：diff 出圈](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/) |
 | RG-OPD | Reward-Gated On-Policy Distillation | — | 2026 | [paper](https://arxiv.org/abs/2607.04037) | (contrasted in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): reward gates trajectories whose teacher–student likelihood gap agrees with advantage) |
 | OPRD | Eliciting Weak-to-Strong Generalization with On-Policy Reverse Distillation | — | 2026 | [paper](https://arxiv.org/abs/2609.08798) | (derived in [OPD-RL](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/): project verifier gradients onto the teacher-diff direction and amplify that component without introducing new stationary points) |
@@ -339,6 +370,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2025-05-01 | 01 | [R1 后范式最佳实践：Seed-Thinking 和 Qwen3](https://yam.gift/2025/05/01/NLP/LLM-Training/2025-05-01-Seed-Thinking-Qwen3/) | Seed-Thinking + Qwen3 are the two most complete industrial post-R1 recipes. |
 | 2025-06-09 | 03 | [Reward Model 建模](https://yam.gift/2025/06/09/NLP/LLM-Training/2025-06-09-RM-Modeling/) | General-domain RM needs principles+critique, not a single scalar (DeepSeek-GRM). |
 | 2025-06-19 | 02 | [GRPO 优化在继续：CISPO 和熵](https://yam.gift/2025/06/19/NLP/LLM-Training/2025-06-19-CISPO-and-Entropy/) | CISPO shows clip is not just stability — it shapes the explore/exploit edge. |
+| 2025-06-26 | 05 | [指令跟随近期工作梳理（2025 年上半年）](https://yam.gift/2025/06/26/NLP/LLM-IF/2025-06-26-Instruction-Following/) | Complex instruction following becomes post-training once constraints are decomposed into verifiable rewards or preference pairs. |
 | 2025-07-01 | 05 | [激活诱导 LLM 指令跟随](https://yam.gift/2025/07/01/NLP/LLM-IF/2025-07-01-Activation-Steering/) | Activation Steering: behavior shaping without weight updates — the prequel to Update-Free Steering. |
 | 2025-07-13 | 03 | [Reward 数据如何塑造与激发推理策略](https://yam.gift/2025/07/13/NLP/LLM-Training/2025-07-13-RM-Data/) | Good reward data unlocks pre-existing strategies; even spurious rewards can do this. |
 | 2025-07-25 | 07 | [GiGPO：双层级优势函数驱动的 Agent RL 新范式](https://yam.gift/2025/07/25/NLP/LLM-Training/2025-07-25-GiGPO/) | Agent RL needs hierarchical (group-in-group) advantages for proper credit assignment. |
@@ -355,6 +387,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2026-01-14 | 02 | [LLM 强化的「炼金术」：主流开源模型的 RL 优化策略赏析](https://yam.gift/2026/01/14/NLP/LLM-Training/2026-01-14-Open-LLM-RL-ShowCase/) | 5 industrial GRPO variants (Kimi/EXAONE/MiMo/MiniMax/Qwen) compared side-by-side — every team is patching the same holes. |
 | 2026-01-17 | 04 | [稳定压倒一切：MoE RL 训推不一致问题及解决策略](https://yam.gift/2026/01/17/NLP/LLM-Training/2026-01-17-RL-MoE-Stable/) | Train-infer router mismatch is the surface; R3 / IcePop / TIS each take a different angle. |
 | 2026-01-22 | 04 | [MoE RL 训练不稳定性再思考：训推不一致，还是采样噪声？](https://yam.gift/2026/01/22/NLP/LLM-Training/2026-01-22-RL-MoE-Stable-2/) | Even *recomputing* logprobs on MoE drifts; the deeper cause is sampling noise, not routing. |
+| 2026-03-01 | 02 | [DLM 的 RL 后训练：灵活性陷阱](https://yam.gift/2026/03/01/NLP/LLM/2026-03-01-DLM/#RL-Post-Train) | Arbitrary generation order can suppress exploration by deferring high-entropy choices; JustGRPO makes training autoregressive while preserving parallel inference. |
 | 2026-03-24 | 05 | [Training-Free RL：当训练不再更新参数，而是更新上下文](https://yam.gift/2026/03/24/NLP/LLM-Training/2026-03-24-RL-New-Paradigm-Traning-Free/) | Advantage in text/context, not in weight space — fixed model can still "RL". |
 | 2026-03-29 | 05 | [RL 新范式：从经验到更高质量数据](https://yam.gift/2026/03/29/NLP/LLM-Training/2026-03-29-RL-New-Paradigm-Data/) | The loop becomes "trajectory → information gain → re-supervision". |
 | 2026-04-11 | 05 | [实时学习：极致高效的子空间微调](https://yam.gift/2026/04/11/NLP/LLM-Training/2026-04-11-Real-time-Learning-from-PEFT/) | MiCA/TinyLoRA: pluggable real-time learning by occupying the *minor* singular directions. |
@@ -366,16 +399,33 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 | 2026-06-22 | 02 | [为什么TRPO在LLM里不能用？——FiberPO的起点](https://yam.gift/2026/06/22/NLP/LLM-Training/2026-06-22-TRPO-Vanishing/) | γ must be 1 in LLM RL → TRPO trust region vanishes to zero; PPO/GRPO clip is empirical δ-relaxation. |
 | 2026-07-04 | 06 | [从 SVM 到分布对齐：后训练方法的另一个统一视角](https://yam.gift/2026/07/04/NLP/LLM-Training/2026-07-04-SVM-to-Alignment/) | SVM/DPO/RLHF/SFT are all distribution alignment — differing in anchor count, KL direction, and anchor observability. |
 | 2026-07-13 | 02 | [SIS：不硬clip，大部分token其实可转为on-policy](https://yam.gift/2026/07/13/NLP/LLM-Training/2026-07-13-SIS/) | Rejection sampling turns most off-policy tokens on-policy — keep the gradient signal instead of clipping it; provably tighter error bound (D_SIS ≤ D). |
+| 2026-08-11 | 06 | [「差值即信号」：OPD 蒸馏的新范式](https://yam.gift/2026/08/11/NLP/LLM-Training/2026-08-11-OPD-Diff-is-Signal/) | Distill the teacher's capability direction, not its raw output: counterfactual policy differences can reconstruct targets, extrapolate beyond teachers, and drive capability-aware curricula. |
 | 2026-08-26 | 03 | [Reward 设计的本质：从 hack 到 hard](https://yam.gift/2026/08/26/AI/2026-08-26-Reward-Design-Philosophy/) | Reward is a lossy compression of preference; reward hack is structural, not a bug — treat reward as a prior to revise, not ground truth. |
 | 2026-09-11 | 02 | [从Pass@k到advantage，一场意想不到的邂逅](https://yam.gift/2026/09/11/NLP/LLM-Training/2026-09-11-PassK-Training/) | Pass@k training = dynamically weakening negative-advantage by global correct-count; converges to the whole 2025-H2 advantage-shaping red ocean (AAPO/ProGRPO/GRPOEA/EMPG/BAPO/ASPO). |
-| 2026-10-15 | 06 | [OPD-RL 新范式：diff 出圈——从蒸馏目标，到 RL 奖励，再到梯度](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/) | A teacher's policy diff can reconstruct a target, act as an implicit dense reward, or recondition verifier gradients — distillation and RL meet through the same directional signal. |
+| 2026-10-15 | 06 | [OPD-RL 新范式：diff 出圈——从目标，到奖励，再到梯度](https://yam.gift/2026/10/15/NLP/LLM-Training/2026-10-15-OPD-RL-New-Paradigm/) | A teacher's policy diff can reconstruct a target, act as an implicit dense reward, or recondition verifier gradients — distillation and RL meet through the same directional signal. |
 
 ---
 
 ## Appendix
 
+### Maintenance
+
+The index is deliberately hand-curated. Run `python3 scripts/check_readme.py` before pushing; CI verifies the headline counts, table shape, timeline order, and duplicate blog links.
+
+### Library
+
+| GitHub | From | Year | Description |
+|--------|------|------|-------------|
+| [prime-rl](https://github.com/PrimeIntellect-ai/prime-rl) | PrimeIntellect-ai | 2025 | Decentralized large-scale RL training framework |
+| [PRIME](https://github.com/PRIME-RL/PRIME) | PRIME-RL | 2025 | Scalable RL recipe for reasoning |
+| [rStar](https://github.com/microsoft/rStar) | Microsoft | 2025 | Self-evolved deep reasoning for SLMs |
+| [veRL](https://github.com/volcengine/verl) | ByteDance | 2024 | LLM RL training framework (Volcano Engine) |
+| [trl](https://github.com/huggingface/trl) | HuggingFace | 2024 | Train language models with RL |
+| [RL4LMs](https://github.com/allenai/RL4LMs) | Allen | 2023 | Aligning LMs to human preference via RL |
+| [alignment-handbook](https://github.com/huggingface/alignment-handbook) | HuggingFace | 2023 | Recipes for aligning to human/AI preference |
+
 ### Citation / Feedback
 
-If this index or the linked blog posts are useful, leave a note on [GitHub Issues](https://github.com/hscspring/rl-llm-nlp/issues), or cite [yam.gift](https://yam.gift) when referencing.
+If this index or the linked blog posts are useful, leave a note on [GitHub Issues](https://github.com/hscspring/llm-post-training-atlas/issues), or cite [yam.gift](https://yam.gift) when referencing.
 
 > "Don't chase the wind — chase the long view; measure one year by the yardstick of ten." — 长琴

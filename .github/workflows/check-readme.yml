@@ -1,0 +1,13 @@
+name: Check README index
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Validate counts, tables, and timeline
+        run: python3 scripts/check_readme.py

@@ -3,7 +3,7 @@
 > **An opinionated map of post-R1 LLM post-training — RL, reward, alignment, distillation, agents, and the connections between them.**
 > Every work is read, classified, and cross-linked; most are connected back to a Chinese deep-dive by [hscspring](https://yam.gift).
 
-**Coverage: 2025-02 → 2026-10 · 46 deep dives · 133 curated works · 7 tracks**
+**Scope: post-R1 LLM post-training · continuously updated**
 
 [Verdicts](#7-tracks--the-authors-verdicts) · [Papers](#papers) · [Timeline](#chronological-blog-timeline) · [Scope](#scope--inclusion-policy)
 
@@ -410,7 +410,7 @@ All blog posts in publishing order, with the author's one-sentence takeaway. Use
 
 ### Maintenance
 
-The index is deliberately hand-curated. Run `python3 scripts/check_readme.py` before pushing; CI verifies the headline counts, table shape, timeline order, and duplicate blog links.
+The index is deliberately hand-curated. Run `python3 scripts/check_readme.py` before pushing; CI reports the current totals and verifies table shape, timeline order, and duplicate blog links.
 
 ### Library
 

@@ -21,15 +21,6 @@ def fail(message: str) -> None:
 text = README.read_text(encoding="utf-8")
 lines = text.splitlines()
 
-coverage = re.search(
-    r"\*\*Coverage: .*? · (\d+) deep dives · (\d+) curated works · (\d+) tracks\*\*",
-    text,
-)
-if not coverage:
-    fail("coverage summary not found")
-
-declared_dives, declared_works, declared_tracks = map(int, coverage.groups())
-
 timeline_start = text.index("## Chronological Blog Timeline")
 timeline_end = text.index("\n---", timeline_start)
 timeline_lines = [
@@ -63,19 +54,18 @@ paper_lines = [
 
 track_count = len(re.findall(r"^### Track \d{2} —", text, re.MULTILINE))
 
-actual = (len(timeline_lines), len(paper_lines), track_count)
-declared = (declared_dives, declared_works, declared_tracks)
-if actual != declared:
-    fail(
-        "coverage counts differ: "
-        f"declared dives/works/tracks={declared}, actual={actual}"
-    )
+if not timeline_lines:
+    fail("timeline has no entries")
+if not paper_lines:
+    fail("paper index has no entries")
+if not track_count:
+    fail("track overview has no entries")
 
 for line_number, line in enumerate(lines, start=1):
     if line.startswith("| 20") and line.count("|") != 5:
         fail(f"malformed timeline table row at line {line_number}")
 
 print(
-    f"README OK: {declared_dives} deep dives, "
-    f"{declared_works} curated works, {declared_tracks} tracks"
+    f"README OK: {len(timeline_lines)} deep dives, "
+    f"{len(paper_lines)} curated works, {track_count} tracks"
 )
